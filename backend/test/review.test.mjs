@@ -76,7 +76,7 @@ test('invalid/revoked tokens, invalid inputs and database errors never call mode
     const { register, post, pool, store } = await setup(t, async () => { calls++; return 'unused'; });
     const { token, installationId } = await (await register()).json();
     assert.equal((await post('b'.repeat(64))).status, 401);
-    assert.equal((await post(token, { ...input, code: 'x\n'.repeat(1001) })).status, 400);
+    assert.equal((await post(token, { ...input, code: 'x\n'.repeat(5001) })).status, 400);
     assert.equal((await post(token, { ...input, filename: '../secret' })).status, 400);
     await pool.query('UPDATE secscan_installations SET revoked = true WHERE id = $1', [installationId]);
     assert.equal((await post(token)).status, 403);
