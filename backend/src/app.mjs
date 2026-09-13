@@ -45,18 +45,18 @@ export function createApp({ store, generate, registrationEnabled = true, timeout
             const chunks = []; let bytes = 0;
             for await (const chunk of req) {
                 bytes += chunk.length;
-                if (bytes > 512 * 1024) { reply(res, 413, { error: 'Input too large.' }); return; }
+                if (bytes > 8 * 1024 * 1024) { reply(res, 413, { error: 'Input too large.' }); return; }
                 chunks.push(chunk);
             }
             let input;
             try { input = JSON.parse(Buffer.concat(chunks).toString('utf8')); }
             catch { reply(res, 400, { error: 'Invalid JSON.' }); return; }
-            if (!input || typeof input.code !== 'string' || !input.code.trim() || Buffer.byteLength(input.code) > 200 * 1024 ||
-                input.code.replace(/\r?\n$/, '').split(/\r\n|\n|\r/).length > 1000 ||
+            if (!input || typeof input.code !== 'string' || !input.code.trim() || Buffer.byteLength(input.code) > 1024 * 1024 ||
+                input.code.replace(/\r?\n$/, '').split(/\r\n|\n|\r/).length > 5000 ||
                 typeof input.filename !== 'string' || !input.filename || input.filename.length > 255 || /[\r\n/\\]/.test(input.filename) ||
                 typeof input.language !== 'string' || !/^[\w+-]{1,64}$/.test(input.language) ||
                 !Number.isSafeInteger(input.startLine) || input.startLine < 1) {
-                reply(res, 400, { error: 'Invalid code or metadata (maximum 1,000 lines and 200 KiB of code).' }); return;
+                reply(res, 400, { error: 'Invalid code or metadata (maximum 5,000 lines and 1MiB of code).' }); return;
             }
             controller.signal.throwIfAborted();
             reviewId = await store.reserve(installationId);

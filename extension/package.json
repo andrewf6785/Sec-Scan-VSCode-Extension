@@ -1,8 +1,8 @@
 {
-  "name": "secscan-security-review",
-  "displayName": "SecScan Security Review",
+  "name": "v-s-code-sec-scan",
+  "displayName": "SecScan Cybersecurity Review",
   "description": "Review a file or selection and save uniquely named Markdown reports.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "publisher": "andrewf6785",
   "engines": {
     "vscode": "^1.85.0"

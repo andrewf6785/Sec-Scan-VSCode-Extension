@@ -35,7 +35,7 @@ export function activate(context: vscode.ExtensionContext): void {
             }
             if (!code.trim()) throw new Error("The selected code is empty.");
             const count = code.replace(/\r?\n$/, "").split(/\r\n|\n|\r/).length;
-            if (count > 1000) throw new Error("Select at most 1,000 lines for this review."); //change in order to change allowed selection parameters
+            if (count > 5000) throw new Error("Select at most 5,000 lines for this review."); //change in order to change allowed selection parameters
 
             const config = vscode.workspace.getConfiguration("secScan");
             const dir = config.get<string>("outputFolder")?.trim() || await chooseFolder();

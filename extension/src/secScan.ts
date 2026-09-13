@@ -13,7 +13,7 @@ export function backendUrl(value: string): URL {
 }
 function post(endpoint: URL, path: string, body: string, signal: AbortSignal, token?: string): Promise<any> {
     return new Promise((resolve, reject) => {
-        if (Buffer.byteLength(body) > 512 * 1024) { reject(new Error("Review input exceeds 512 KiB.")); return; }
+        if (Buffer.byteLength(body) > 8 * 1024 * 1024) { reject(new Error("Review input exceeds 8 MiB.")); return; }
         const request = endpoint.protocol === "https:" ? httpsRequest : httpRequest;
         const headers: Record<string, string | number> = { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) };
         if (token) headers.Authorization = `Bearer ${token}`;
