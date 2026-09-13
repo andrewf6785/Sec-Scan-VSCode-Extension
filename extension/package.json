@@ -1,0 +1,78 @@
+{
+  "name": "secscan-security-review",
+  "displayName": "SecScan Security Review",
+  "description": "Review a file or selection and save uniquely named Markdown reports.",
+  "version": "0.3.0",
+  "publisher": "andrewf6785",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "secScan.reviewFile",
+        "title": "SecScan: Review File"
+      },
+      {
+        "command": "secScan.reviewSelection",
+        "title": "SecScan: Review Selection"
+      },
+      {
+        "command": "secScan.chooseOutputFolder",
+        "title": "SecScan: Choose Output Folder"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "secScan.reviewFile",
+          "when": "!explorerResourceIsFolder && resourceScheme == file",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "secScan.reviewSelection",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        },
+        {
+          "command": "secScan.reviewFile",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SecScan",
+      "properties": {
+        "secScan.outputFolder": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Absolute folder for all review reports. Choose once using SecScan: Choose Output Folder."
+        },
+        "secScan.backendUrl": {
+          "type": "string",
+          "default": "https://cyberscurity-scan-vscode-extension.onrender.com",
+          "scope": "application",
+          "description": "HTTPS URL of your SecScan Render service. Set in User Settings."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "1.85.0",
+    "typescript": "^5.9.0"
+  }
+}

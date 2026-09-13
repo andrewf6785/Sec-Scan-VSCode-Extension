@@ -1,0 +1,7 @@
+node_modules/
+out/
+.env
+.env.*
+!.env.example
+*.vsix
+backend/references/*.txt
